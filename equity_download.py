@@ -14,7 +14,7 @@ class EquityInfo:
         self.code = code
         self.name = name
         self.group = group
-        self.type = type_abbr
+        self.type_abbr = type_abbr
         self.open = open
         self.high = high
         self.low = low
@@ -24,6 +24,21 @@ class EquityInfo:
         self.no_of_trades = no_of_trades
         self.no_of_shares = no_of_shares
         self.net_turnov = net_turnov
+
+    def get_stock_details_as_dict(self):
+        return {
+            "code": self.code,
+            "name": self.name,
+            "group": self.group,
+            "type": self.type_abbr,
+            "open": self.open,
+            "high": self.high,
+            "low": self.low,
+            "close": self.close,
+            "last": self.last,
+            "no_of_trades": self.no_of_trades,
+            "no_of_shares": self.no_of_shares,
+        }
 
 
 
@@ -60,9 +75,9 @@ class EquityDownloader:
                     df = pd.read_csv(csv_file)
                     for idx, row in df.iterrows():
                         code = row['SC_CODE']
-                        name = row['SC_NAME']
-                        group = row['SC_GROUP']
-                        type_abbr = row['SC_TYPE']
+                        name = row['SC_NAME'].strip().strip(",.")
+                        group = row['SC_GROUP'].strip().strip(",.")
+                        type_abbr = row['SC_TYPE'].strip().strip(",.")
                         open = row['OPEN']
                         high = row['HIGH']
                         low = row['LOW']
