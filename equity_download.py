@@ -1,11 +1,11 @@
-import requests
-from bs4 import BeautifulSoup
+import urllib.request
 from io import BytesIO
 from zipfile import ZipFile
-import urllib.request
-import datetime
-import csv
+
 import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+
 
 class EquityInfo:
 
@@ -26,10 +26,11 @@ class EquityInfo:
         self.net_turnov = net_turnov
 
 
-equity_info_list = []
+
 
 class EquityDownloader:
     href_pattern = "/download/BhavCopy/Equity/EQ{0}_CSV.ZIP"
+    equity_info_list = []
 
     @staticmethod
     def get_href_for_latest_equity_data():
@@ -74,9 +75,9 @@ class EquityDownloader:
 
                         equity_info = EquityInfo(code, name, group, type_abbr, open, high, low, close, last,
                                                  prev_close, no_of_trades, no_of_shares, net_turnov)
-                        equity_info_list.append(equity_info)
+                        __class__.equity_info_list.append(equity_info)
 
-        import ipdb; ipdb.set_trace()
+        return __class__.equity_info_list
 
 if __name__ == "__main__":
     print(EquityDownloader.get_equity_data())
