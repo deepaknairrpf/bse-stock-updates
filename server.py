@@ -1,32 +1,45 @@
+import json
+
 import cherrypy
-from equity_download import EquityDownloader
+import cherrypy_cors
 import redis
+import os
+from equity_download import EquityDownloader
 
-
-redis_conn = redis.StrictRedis(host='localhost', port=6379)
+redis_conn = redis.StrictRedis(host='localhost', port=6379, charset="utf-8", decode_responses=True)
 redis_sorted_set_namespace = "stocks_set"
 
 STOCK_DATA_COLLECTION_PERIOD = 3600 * 24
 
 
+TEMPLATE_DIR = os.path.join(os.path.abspath("."), u"templates")
+
 class StockDataScrapper:
 
     @cherrypy.expose
     def index(self):
-        equity_list = redis_conn.zrange(redis_sorted_set_namespace, 0, -1)
+        return open(os.path.join(TEMPLATE_DIR, u'index.html'))
+
+    @cherrypy.expose
+    def fetch_data(self, _, pagination_start, pagination_end):
+        return_dict = {
+            "data": []
+        }
+        equity_list = redis_conn.zrange(redis_sorted_set_namespace, 0, -1, desc=True)
         if not equity_list:
             reload_redis_with_latest_data()
             equity_list = redis_conn.zrange(redis_sorted_set_namespace, 0, -1)
 
         for equity_name in equity_list:
             equity_data = redis_conn.hgetall(equity_name)
-            print(equity_data)
-        return "Hello World"
+            return_dict["data"].append(equity_data)
+        print(json.dumps(return_dict))
+        return json.dumps(return_dict)
 
     @cherrypy.expose
     def search(self, title):
         equity_data = redis_conn.hgetall(title)
-        print(equity_data)
+        return json.dumps(equity_data)
 
 
 def reload_redis_with_latest_data():
@@ -35,11 +48,24 @@ def reload_redis_with_latest_data():
         redis_conn.zadd(redis_sorted_set_namespace, float(data.no_of_trades), data.name)
         redis_conn.hmset(data.name, data.get_stock_details_as_dict())
 
+def CORS():
+    cherrypy.response.headers["Access-Control-Allow-Origin"] = "http://localhost"
 
 if __name__ == "__main__":
+    cherrypy_cors.install()
+    config = {
+        '/': {
+            'cors.expose.on': True,
+        },
+        '/templates':
+            {'tools.staticdir.on': True,
+             'tools.staticdir.dir': TEMPLATE_DIR,
+             }
+    }
     cherrypy.engine.housekeeper = cherrypy.process.plugins.BackgroundTask(
         STOCK_DATA_COLLECTION_PERIOD,
         reload_redis_with_latest_data
     )
+    cherrypy.tools.CORS = cherrypy.Tool('before_handler', CORS)
     cherrypy.engine.housekeeper.start()
-    cherrypy.quickstart(StockDataScrapper())
+    cherrypy.quickstart(StockDataScrapper(), config=config)
