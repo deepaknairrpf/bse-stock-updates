@@ -27,4 +27,4 @@ Pic:
 4. Make the app work for an arbitrary date input from the user.
 5. Implement different types of filters that can be performed efficiently on Redis. 
    Ex:- Fetch all stocks of SC_GROUP A and SC_TYPE Q.
-   
+6. Proper logging.
