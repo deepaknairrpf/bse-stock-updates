@@ -16,8 +16,8 @@ BeautifulSoup was used to easily parse the html page.
 
 ## Frontend
 -----------------------------------------------
-A basic HTML5 and CSS3 page which provides a data table functionality with pagination and a search bar using jquery and ajax for asynchronous HTTP requests.
-Pic:
+A basic HTML5 and CSS3 page which provides a data table functionality with pagination and a search bar using jquery and ajax for asynchronous HTTP requests.<br />
+Pic: ![Screenshot](screenshot.png)
 
 #### Future improvements
 ------------------------------------------------
