@@ -35,7 +35,7 @@ $('#pagination-here').bootpag({
 
 $('#pagination-here').on("page", function(event, num){
     datatable.clear().draw();
-    $.ajax({"url": "http://localhost:8080/fetch_data?page_start=" + num * 10 + "&page_end=" + (num * 10 + 9) + "&_=124", "success": function (response) {
+    $.ajax({"url": "http://localhost:8080/fetch_data?page_start=" + (num - 1) * 10 + "&page_end=" + ((num - 1) * 10 + 9) + "&_=124", "success": function (response) {
             var data_obj = JSON.parse(response);
             console.log(num);
             console.log(data_obj.data);
@@ -48,3 +48,24 @@ $('#pagination-here').on("page", function(event, num){
 
 
 });
+
+$(document).ready(function() {
+    $("#stock-search-btn").click(function(){
+        var search_query = $('#stock-search').val();
+        $.ajax({"url": "http://localhost:8080/search?title=" + search_query, "success": function (response) {
+            var data_obj = JSON.parse(response);
+            console.log(data_obj.code);
+            if(data_obj.code !== undefined) {
+                datatable.clear().draw();
+                datatable.row.add(data_obj);
+                datatable.columns.adjust().draw();
+            }
+            else {
+                alert("No stock info was found for " + search_query);
+            }
+            }, "error": function (err) {
+            console.log(err)
+            }})
+    });
+});
+

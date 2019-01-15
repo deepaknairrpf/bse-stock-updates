@@ -28,7 +28,7 @@ class StockDataScrapper:
         equity_list = redis_conn.zrange(redis_sorted_set_namespace, page_start, page_end, desc=True)
         if not equity_list:
             reload_redis_with_latest_data()
-            equity_list = redis_conn.zrange(redis_sorted_set_namespace, 0, -1)
+            equity_list = redis_conn.zrange(redis_sorted_set_namespace, page_start, page_end, desc=True)
 
         for equity_name in equity_list:
             equity_data = redis_conn.hgetall(equity_name)

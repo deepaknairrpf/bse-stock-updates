@@ -4,6 +4,7 @@
 	<title>Stock prices</title>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="static/index.css" rel="stylesheet" />
 
 </head>
@@ -16,8 +17,12 @@
       <div class="col-sm-12">
         <h1>jQuery Bootpag Pagination Example</h1>
         <p>Showcaes the jQueyr Bootpag pagination JS library for creating simple, quick JS based pagination.</p>
-        <p id="pagination-here"></p>
-        <p id="content">Dynamic page content</p>
+
+          <div class="search__box">
+          <input id="stock-search" class="search__field" type="text" placeholder="Search"/>
+          <button id="stock-search-btn" class="search__btn"><i class="fa fa-search"></i></button>
+          </div>
+
         <table id="stock-data-tb" class="display" style="width:100%">
         <thead>
             <tr>
@@ -35,6 +40,7 @@
             </tr>
         </thead>
     </table>
+        <p id="pagination-here"></p>
 
       </div>
     </div>
