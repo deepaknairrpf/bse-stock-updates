@@ -1,4 +1,4 @@
-# Daily BSE stock updates..
+# Daily BSE Stock Updates..
 A simple cherrypy web app which displays latest BSE equity data stored in a redis data store.
 
 ## Backend
