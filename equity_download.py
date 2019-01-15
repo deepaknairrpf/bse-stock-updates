@@ -49,21 +49,11 @@ class EquityDownloader:
 
     @staticmethod
     def get_href_for_latest_equity_data():
-        """Static function which parses bseindia website to
-
-        `PEP 484`_ type annotations are supported. If attribute, parameter, and
-        return types are annotated according to `PEP 484`_, they do not need to be
-        included in the docstring:
-
-        Args:
-            param1 (int): The first parameter.
-            param2 (str): The second parameter.
+        """Static function which parses bseindia website to determine the URL link of
+        the latest stock information.
 
         Returns:
-            bool: The return value. True for success, False otherwise.
-
-        .. _PEP 484:
-            https://www.python.org/dev/peps/pep-0484/
+            str: URL link to download the zip of the latest stock info.
 
         """
         bse_page = requests.get("https://www.bseindia.com/markets/MarketInfo/BhavCopy.aspx")
@@ -73,11 +63,24 @@ class EquityDownloader:
 
     @staticmethod
     def get_zip_file_url_for_specific_date(date):
+        """Static function which given a date, returns the URL of the zip file to download the
+        stock information for that date.
+
+        This assumes that BSE website names the zip file in the pattern located at `href_pattern`.
+
+        Args:
+            date: datetime object.
+
+        Returns:
+            str: URL link to download the zip of the latest stock info.
+
+        """
         date_format = date.strftime('%d%m%y')
         return __class__.href_pattern.format(date_format)
 
     @staticmethod
     def get_equity_data(date=None):
+
         equity_info_list = []
         if date is None:
             equity_data_zip_file_url = __class__.get_href_for_latest_equity_data()
