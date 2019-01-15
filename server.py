@@ -9,7 +9,7 @@ from equity_download import EquityDownloader
 redis_conn = redis.StrictRedis(host='localhost', port=6379, charset="utf-8", decode_responses=True)
 redis_sorted_set_namespace = "stocks_set"
 
-STOCK_DATA_COLLECTION_PERIOD = 3600 * 24
+STOCK_DATA_COLLECTION_PERIOD = 3600 * 12
 
 
 STATIC_DIR = os.path.join(os.path.abspath("."), u"static")

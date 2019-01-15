@@ -8,7 +8,8 @@ from bs4 import BeautifulSoup
 
 
 class EquityInfo:
-
+    """Class to store attributes of an equity.
+    """
     def __init__(self, code, name, group, type_abbr, open, high, low, close,
                  last, prev_close, no_of_trades, no_of_shares, net_turnov):
         self.code = code
@@ -45,10 +46,26 @@ class EquityInfo:
 
 class EquityDownloader:
     href_pattern = "/download/BhavCopy/Equity/EQ{0}_CSV.ZIP"
-    equity_info_list = []
 
     @staticmethod
     def get_href_for_latest_equity_data():
+        """Static function which parses bseindia website to
+
+        `PEP 484`_ type annotations are supported. If attribute, parameter, and
+        return types are annotated according to `PEP 484`_, they do not need to be
+        included in the docstring:
+
+        Args:
+            param1 (int): The first parameter.
+            param2 (str): The second parameter.
+
+        Returns:
+            bool: The return value. True for success, False otherwise.
+
+        .. _PEP 484:
+            https://www.python.org/dev/peps/pep-0484/
+
+        """
         bse_page = requests.get("https://www.bseindia.com/markets/MarketInfo/BhavCopy.aspx")
         soup = BeautifulSoup(bse_page.content, features="html.parser")
         href = soup.find(id="ContentPlaceHolder1_btnhylZip")['href']
@@ -61,7 +78,7 @@ class EquityDownloader:
 
     @staticmethod
     def get_equity_data(date=None):
-
+        equity_info_list = []
         if date is None:
             equity_data_zip_file_url = __class__.get_href_for_latest_equity_data()
         else:
@@ -90,9 +107,10 @@ class EquityDownloader:
 
                         equity_info = EquityInfo(code, name, group, type_abbr, open, high, low, close, last,
                                                  prev_close, no_of_trades, no_of_shares, net_turnov)
-                        __class__.equity_info_list.append(equity_info)
+                        equity_info_list.append(equity_info)
 
-        return __class__.equity_info_list
+        return equity_info_list
+
 
 if __name__ == "__main__":
     print(EquityDownloader.get_equity_data())
