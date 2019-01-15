@@ -5,7 +5,9 @@ certifi==2018.11.29
 chardet==3.0.4
 cheroot==6.5.4
 CherryPy==18.1.0
+cherrypy-cors==1.6
 decorator==4.3.0
+httpagentparser==1.8.1
 idna==2.8
 ipdb==0.11
 ipython==7.2.0
