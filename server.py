@@ -21,7 +21,7 @@ class StockDataScrapper:
         return open(os.path.join(STATIC_DIR, u'index.html'))
 
     @cherrypy.expose
-    def fetch_data(self, page_start, page_end):
+    def fetch_data(self, page_start, page_end, _):
         return_dict = {
             "data": []
         }

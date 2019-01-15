@@ -1,6 +1,11 @@
-$(document).ready(function() {
-    $('#stock-data-tb').DataTable( {
+var datatable = $('#stock-data-tb').DataTable( {
         "ajax": "http://localhost:8080/fetch_data?page_start=" + 0 + "&page_end=" + 9,
+        "order": [[ 9, "desc" ]],
+        "bPaginate": false,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": false,
+        "bAutoWidth": false,
         "columns": [
             { "data": "code" },
             { "data": "name" },
@@ -15,6 +20,9 @@ $(document).ready(function() {
             { "data": "no_of_shares" },
         ]
     } );
+
+$(document).ready(function() {
+   datatable.draw();
 } );
 
 $('#pagination-here').bootpag({
@@ -23,10 +31,20 @@ $('#pagination-here').bootpag({
     maxVisible: 5,
     leaps: true,
     href: "#result-page-{{number}}",
-})
+});
 
-//page click action
 $('#pagination-here').on("page", function(event, num){
-    //show / hide content or pull via ajax etc
+    datatable.clear().draw();
+    $.ajax({"url": "http://localhost:8080/fetch_data?page_start=" + num * 10 + "&page_end=" + (num * 10 + 9) + "&_=124", "success": function (response) {
+            var data_obj = JSON.parse(response);
+            console.log(num);
+            console.log(data_obj.data);
+            datatable.rows.add(data_obj.data);
+            datatable.columns.adjust().draw();
+        }, "error": function (err) {
+            console.log(this.url);
+            console.log(err)
+        }});
+
 
 });
