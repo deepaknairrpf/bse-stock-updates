@@ -28,3 +28,10 @@ Pic:
 5. Implement different types of filters that can be performed efficiently on Redis. 
    Ex:- Fetch all stocks of SC_GROUP A and SC_TYPE Q.
 6. Proper logging.
+
+### Instructions to deploy
+---------------------------------------------------
+1. Create a virtual environment with python3.6 as the interpretor and activate it.
+2. Run `pip install -r requirements.txt` to install all the dependencies.
+3. Ensure that Redis is exposed on port 6379 of localhost.
+4. Start the application server by running `python server.py` to listen on localhost:8080.
