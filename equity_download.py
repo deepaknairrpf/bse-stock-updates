@@ -2,6 +2,7 @@ import urllib.request
 from io import BytesIO
 from zipfile import ZipFile
 
+import re
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -62,6 +63,12 @@ class EquityDownloader:
         return href
 
     @staticmethod
+    def get_corresponsding_date_for_href(href):
+        matches = re.search('\d+', href)
+        date = matches.group(0)
+        return date[0:2] + "-" + date[2:4] + "-" + date[4:6]
+
+    @staticmethod
     def get_zip_file_url_for_specific_date(date):
         """Static function which given a date, returns the URL of the zip file to download the
         stock information for that date.
@@ -80,6 +87,18 @@ class EquityDownloader:
 
     @staticmethod
     def get_equity_data(date=None):
+
+        """Static function which returns the list of all equity information.
+
+          By default, it fetches the latest available stock information, unless a date is specified.
+
+          Args:
+              date: datetime object.
+
+          Returns:
+              <[EquityInfo]>: URL link to download the zip of the latest stock info.
+
+          """
 
         equity_info_list = []
         if date is None:

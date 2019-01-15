@@ -23,6 +23,13 @@ var datatable = $('#stock-data-tb').DataTable( {
 
 $(document).ready(function() {
    datatable.draw();
+   $.ajax({"url": "http://localhost:8080/last_scrapped_date", "success": function (response) {
+       var date_obj = JSON.parse(response);
+       $('#latest-stock-date').html(date_obj.last_scrapped_date);
+       $('#last-refreshed-date-time').html(date_obj.last_refreshed_datetime);
+       }, "error": function (err) {
+           console.log(err)
+       }})
 } );
 
 $('#pagination-here').bootpag({
