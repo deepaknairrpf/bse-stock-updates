@@ -31,7 +31,7 @@ Pic:
 
 ### Instructions to deploy
 ---------------------------------------------------
-1. Create a virtual environment with python3.6 as the interpretor and activate it.
+1. Create a virtual environment with `python3.6` as the interpretor and activate it.
 2. Run `pip install -r requirements.txt` to install all the dependencies.
-3. Ensure that Redis is exposed on port 6379 of localhost.
-4. Start the application server by running `python server.py` to listen on localhost:8080.
+3. Ensure that Redis is exposed on port `6379` of `localhost`.
+4. Start the application server by running `python server.py` to listen on `localhost:8080`.
