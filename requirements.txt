@@ -15,7 +15,7 @@ ipython-genutils==0.2.0
 jaraco.functools==2.0
 jedi==0.13.2
 more-itertools==5.0.0
-numpy==1.16.0
+numpy==1.22.0
 pandas==0.23.4
 parso==0.3.1
 pexpect==4.6.0
